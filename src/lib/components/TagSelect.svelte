@@ -5,6 +5,7 @@
 	export let small = false;
 
 	$: selected = $tags.find((tag) => tag.label === label);
+	$: disabled = !!selected || $tags.length >= 10;
 
 	$: buttonClasses = [
 		'btn',
@@ -17,4 +18,4 @@
 		.join(' ');
 </script>
 
-<button disabled={!!selected} on:click={() => addTag(label)} class={buttonClasses}>{label}</button>
+<button {disabled} on:click={() => addTag(label)} class={buttonClasses}>{label}</button>

@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;700&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -8,9 +9,18 @@ body {
 	@apply h-full overflow-hidden;
 }
 
-/* modern theme */
-@font-face {
-	font-family: 'Quicksand';
-	src: url('/fonts/Quicksand.ttf');
-	font-display: swap;
+/* Theme overrides */
+:root [data-theme='crimson'] {
+	--theme-font-family-base: 'Noto Sans Thai', sans-serif;
+	--theme-font-family-heading: 'Noto Sans Thai', sans-serif;
+	/* --color-surface-50: 251 228 227;
+	--color-surface-100: 249 220 217;
+	--color-surface-200: 248 211 208;
+	--color-surface-300: 244 184 179;
+	--color-surface-400: 235 131 123;
+	--color-surface-500: 227 78 66;
+	--color-surface-600: 204 70 59;
+	--color-surface-700: 170 59 50;
+	--color-surface-800: 136 47 40;
+	--color-surface-900: 111 38 32; */
 }

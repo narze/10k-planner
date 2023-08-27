@@ -1,9 +1,12 @@
 <script lang="ts">
+	import TagViewCard from '$lib/components/TagViewCard.svelte';
 	import TagOptionCard from '$lib/components/TagOptionCard.svelte';
 	import TagSelect from '$lib/components/TagSelect.svelte';
+	import { state } from '$lib/stores/state';
 	import { predefinedTags, tags } from '$lib/stores/tags';
 
 	$: initialState = $tags.length == 0;
+	$: submittedState = $state === 'submitted';
 </script>
 
 <div class="container h-full mx-auto flex justify-center items-center">
@@ -12,24 +15,32 @@
 
 		<div>คุณจะนำเงินดิจิทัล 10,000 ฿ ไปใช้ทำอะไรบ้าง ?</div>
 
-		{#if initialState}
-			<div class="flex gap-2 flex-wrap px-8 justify-center">
-				{#each predefinedTags as tag}
-					<TagSelect label={tag} />
-				{/each}
-			</div>
-		{/if}
-
-		{#if !initialState}
+		{#if submittedState}
 			<div class="flex gap-2 flex-col px-4 justify-center w-96 max-w-[100vw]">
 				{#each $tags as tag}
-					<TagOptionCard bind:tag />
+					<TagViewCard {tag} />
 				{/each}
 			</div>
-		{/if}
+		{:else}
+			{#if initialState}
+				<div class="flex gap-2 flex-wrap px-8 justify-center">
+					{#each predefinedTags as tag}
+						<TagSelect label={tag} />
+					{/each}
+				</div>
+			{/if}
 
-		{#if initialState}
-			<div>คลิกที่หัวข้อเพื่อเริ่มวางแผนการใช้เงินดิจิทัล</div>
+			{#if !initialState}
+				<div class="flex gap-2 flex-col px-4 justify-center w-96 max-w-[100vw]">
+					{#each $tags as tag}
+						<TagOptionCard bind:tag />
+					{/each}
+				</div>
+			{/if}
+
+			{#if initialState}
+				<div>คลิกที่หัวข้อเพื่อเริ่มวางแผนการใช้เงินดิจิทัล</div>
+			{/if}
 		{/if}
 	</div>
 </div>

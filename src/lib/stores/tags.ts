@@ -54,3 +54,9 @@ export function removeTag(label: string) {
 		return currentTags.filter((t) => t.label !== label);
 	});
 }
+
+export function reorderTagsByValue() {
+	tags.update((currentTags) => {
+		return currentTags.sort((a, b) => b.value - a.value);
+	});
+}

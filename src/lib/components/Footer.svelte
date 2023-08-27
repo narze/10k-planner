@@ -1,9 +1,10 @@
 <script lang="ts" context="module">
-	import { predefinedTags, remainingAmount, tags } from '$lib/stores/tags';
+	import { predefinedTags, remainingAmount, reorderTagsByValue, tags } from '$lib/stores/tags';
 	import { writable } from 'svelte/store';
 	import TagSelect from './TagSelect.svelte';
 	import { AppBar, popup, type PopupSettings } from '@skeletonlabs/skeleton';
 	import { THB } from '$lib';
+	import { state } from '$lib/stores/state';
 	export const footer = writable(true);
 </script>
 
@@ -15,6 +16,11 @@
 		target: 'popupHover',
 		placement: 'top'
 	};
+
+	function submit() {
+		reorderTagsByValue();
+		state.set('submitted');
+	}
 </script>
 
 {#if $footer}
@@ -58,7 +64,13 @@
 					slotTrail="place-content-end"
 				>
 					<svelte:fragment slot="lead">
-						<div>เหลือ: {$remainingAmount} {THB}</div>
+						<div class="text-lg">
+							เหลือ: {$remainingAmount.toLocaleString()}
+							{THB}
+							{#if $remainingAmount == 0}
+								✅
+							{/if}
+						</div>
 					</svelte:fragment>
 
 					<svelte:fragment slot="trail">
@@ -74,8 +86,7 @@
 								<div class="arrow variant-filled-warning" />
 							</div>
 						{:else}
-							<button class="btn variant-filled-primary" on:click={() => tags.set([])}>ต่อไป</button
-							>
+							<button class="btn variant-filled-success" on:click={submit}>ต่อไป</button>
 						{/if}
 					</svelte:fragment>
 				</AppBar>

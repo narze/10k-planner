@@ -8,9 +8,9 @@
 
 <div class="container h-full mx-auto flex justify-center items-center">
 	<div class="space-y-10 text-center flex flex-col items-center">
-		<h1 class="h1">10k Planner</h1>
+		<h1 class="h1 text-primary-500 font-bold">10k Planner</h1>
 
-		<p>คุณจะนำเงินดิจิทัล 10,000 ฿ ไปใช้ทำอะไรบ้าง ?</p>
+		<div>คุณจะนำเงินดิจิทัล 10,000 ฿ ไปใช้ทำอะไรบ้าง ?</div>
 
 		{#if initialState}
 			<div class="flex gap-2 flex-wrap px-8 justify-center">
@@ -20,14 +20,16 @@
 			</div>
 		{/if}
 
-		<div class="flex gap-2 flex-col px-4 justify-center w-96 max-w-[100vw]">
-			{#each $tags as tag}
-				<TagOptionCard bind:tag />
-			{/each}
-		</div>
+		{#if !initialState}
+			<div class="flex gap-2 flex-col px-4 justify-center w-96 max-w-[100vw]">
+				{#each $tags as tag}
+					<TagOptionCard bind:tag />
+				{/each}
+			</div>
+		{/if}
 
 		{#if initialState}
-			<p>คลิกที่หัวข้อเพื่อเริ่มวางแผนการใช้เงินดิจิทัล</p>
+			<div>คลิกที่หัวข้อเพื่อเริ่มวางแผนการใช้เงินดิจิทัล</div>
 		{/if}
 	</div>
 </div>

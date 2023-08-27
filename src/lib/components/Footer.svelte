@@ -18,14 +18,37 @@
 </script>
 
 {#if $footer}
-	{#if !initialState}
+	{#if initialState}
+		<AppBar
+			gridColumns="grid-cols-1"
+			slotDefault="place-self-center text-center"
+			background="bg-transparent"
+		>
+			<div class="text-sm">
+				made with 🧡 by <a
+					href="https://narze.live"
+					target="_blank"
+					class="text-primary-500 hover:text-primary-800">narze</a
+				>
+			</div>
+			<div class="text-sm">
+				<a
+					href="https://ko-fi.com/narze"
+					target="_blank"
+					class="text-primary-500 hover:text-primary-800">เลี้ยงกาแฟ ☕️</a
+				> เพื่อสนับสนุนผลงาน
+			</div>
+		</AppBar>
+	{:else}
 		<div class="bg-surface-100-800-token">
-			<div class="container mx-auto -space-y-4 max-w-screen-md">
-				<AppBar gridColumns="grid-cols-1">
-					<div class="flex gap-2 flex-wrap justify-center">
-						{#each predefinedTags as tag}
-							<TagSelect label={tag} small={true} />
-						{/each}
+			<div class="container mx-auto -space-y-2 max-w-screen-md">
+				<AppBar gridColumns="grid-cols-1" slotDefault="max-h-40 m-0 overflow-y-auto" class="!p-0">
+					<div class="p-4">
+						<div class="flex gap-2 flex-wrap justify-center">
+							{#each predefinedTags as tag}
+								<TagSelect label={tag} small={true} />
+							{/each}
+						</div>
 					</div>
 				</AppBar>
 

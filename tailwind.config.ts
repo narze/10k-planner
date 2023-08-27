@@ -17,11 +17,11 @@ export default {
 			themes: {
 				preset: [
 					{
-						name: 'modern',
-						enhancements: true,
-					},
-				],
-			},
-		}),
-	],
+						name: 'crimson',
+						enhancements: true
+					}
+				]
+			}
+		})
+	]
 } satisfies Config;

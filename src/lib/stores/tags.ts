@@ -44,3 +44,9 @@ export function addTag(label: string) {
 		return [...currentTags, tag];
 	});
 }
+
+export function removeTag(label: string) {
+	tags.update((currentTags) => {
+		return currentTags.filter((t) => t.label !== label);
+	});
+}

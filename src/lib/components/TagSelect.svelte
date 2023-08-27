@@ -10,4 +10,4 @@
 		.join(' ');
 </script>
 
-<button on:click={() => addTag(label)} class={buttonClasses}>{label}</button>
+<button disabled={!!selected} on:click={() => addTag(label)} class={buttonClasses}>{label}</button>

@@ -19,41 +19,44 @@
 
 {#if $footer}
 	{#if !initialState}
-		<div class="-space-y-4">
-			<AppBar gridColumns="grid-cols-1">
-				<div class="flex gap-2 flex-wrap justify-center">
-					{#each predefinedTags as tag}
-						<TagSelect label={tag} />
-					{/each}
-				</div>
-			</AppBar>
+		<div class="bg-surface-100-800-token">
+			<div class="container mx-auto -space-y-4 max-w-screen-md">
+				<AppBar gridColumns="grid-cols-1">
+					<div class="flex gap-2 flex-wrap justify-center">
+						{#each predefinedTags as tag}
+							<TagSelect label={tag} small={true} />
+						{/each}
+					</div>
+				</AppBar>
 
-			<AppBar
-				gridColumns="grid-cols-3"
-				slotDefault="place-self-center"
-				slotTrail="place-content-end"
-			>
-				<svelte:fragment slot="lead">
-					<div>เหลือ: {$remainingAmount} {THB}</div>
-				</svelte:fragment>
+				<AppBar
+					gridColumns="grid-cols-3"
+					slotDefault="place-self-center"
+					slotTrail="place-content-end"
+				>
+					<svelte:fragment slot="lead">
+						<div>เหลือ: {$remainingAmount} {THB}</div>
+					</svelte:fragment>
 
-				<svelte:fragment slot="trail">
-					{#if $remainingAmount !== 0}
-						<button
-							disabled={true}
-							class="btn variant-filled-primary [&>*]:pointer-events-none"
-							use:popup={popupHover}
-							on:click={() => tags.set([])}>ต่อไป</button
-						>
-						<div class="!m-0 card p-2 variant-filled-warning" data-popup="popupHover">
-							<p>ใช้ให้ครบ 10,000 {THB} ก่อน</p>
-							<div class="arrow variant-filled-warning" />
-						</div>
-					{:else}
-						<button class="btn variant-filled-primary" on:click={() => tags.set([])}>ต่อไป</button>
-					{/if}
-				</svelte:fragment>
-			</AppBar>
+					<svelte:fragment slot="trail">
+						{#if $remainingAmount !== 0}
+							<button
+								disabled={true}
+								class="btn variant-filled-primary [&>*]:pointer-events-none"
+								use:popup={popupHover}
+								on:click={() => tags.set([])}>ต่อไป</button
+							>
+							<div class="!m-0 card p-2 variant-filled-warning" data-popup="popupHover">
+								<p>ใช้ให้ครบ 10,000 {THB} ก่อน</p>
+								<div class="arrow variant-filled-warning" />
+							</div>
+						{:else}
+							<button class="btn variant-filled-primary" on:click={() => tags.set([])}>ต่อไป</button
+							>
+						{/if}
+					</svelte:fragment>
+				</AppBar>
+			</div>
 		</div>
 		<!-- <svelte:fragment slot="lead"><div></div></svelte:fragment>
 

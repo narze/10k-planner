@@ -60,3 +60,9 @@ export function reorderTagsByValue() {
 		return currentTags.sort((a, b) => b.value - a.value);
 	});
 }
+
+export function cleanupZeroValueTags() {
+	tags.update((currentTags) => {
+		return currentTags.filter((t) => t.value > 0);
+	});
+}

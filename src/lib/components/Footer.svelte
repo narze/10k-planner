@@ -1,5 +1,11 @@
 <script lang="ts" context="module">
-	import { predefinedTags, remainingAmount, reorderTagsByValue, tags } from '$lib/stores/tags';
+	import {
+		cleanupZeroValueTags,
+		predefinedTags,
+		remainingAmount,
+		reorderTagsByValue,
+		tags
+	} from '$lib/stores/tags';
 	import { writable } from 'svelte/store';
 	import TagSelect from './TagSelect.svelte';
 	import { AppBar, popup, type PopupSettings } from '@skeletonlabs/skeleton';
@@ -10,6 +16,7 @@
 
 <script lang="ts">
 	$: initialState = $tags.length == 0;
+	$: submittedState = $state === 'submitted';
 
 	const popupHover: PopupSettings = {
 		event: 'hover',
@@ -18,13 +25,43 @@
 	};
 
 	function submit() {
+		cleanupZeroValueTags();
 		reorderTagsByValue();
 		state.set('submitted');
+	}
+
+	function restart() {
+		state.set('input');
+		tags.set([]);
 	}
 </script>
 
 {#if $footer}
-	{#if initialState}
+	{#if submittedState}
+		<AppBar slotDefault="place-self-center" background="bg-transparent">
+			<svelte:fragment slot="lead">
+				<div>
+					<div class="text-sm">
+						made with 🧡 by <a
+							href="https://narze.live"
+							target="_blank"
+							class="text-primary-500 hover:text-primary-800">narze</a
+						>
+					</div>
+					<div class="text-sm">
+						<a
+							href="https://ko-fi.com/narze"
+							target="_blank"
+							class="text-primary-500 hover:text-primary-800">เลี้ยงกาแฟ ☕️</a
+						> เพื่อสนับสนุนผลงาน
+					</div>
+				</div>
+			</svelte:fragment>
+			<svelte:fragment slot="trail">
+				<button class="btn rounded-lg variant-ghost-secondary" on:click={restart}>ทำใหม่</button>
+			</svelte:fragment>
+		</AppBar>
+	{:else if initialState}
 		<AppBar
 			gridColumns="grid-cols-1"
 			slotDefault="place-self-center text-center"
@@ -77,7 +114,7 @@
 						{#if $remainingAmount !== 0}
 							<button
 								disabled={true}
-								class="btn variant-filled-primary [&>*]:pointer-events-none"
+								class="btn rounded-lg variant-filled-primary [&>*]:pointer-events-none"
 								use:popup={popupHover}
 								on:click={() => tags.set([])}>ต่อไป</button
 							>
@@ -86,7 +123,7 @@
 								<div class="arrow variant-filled-warning" />
 							</div>
 						{:else}
-							<button class="btn variant-filled-success" on:click={submit}>ต่อไป</button>
+							<button class="btn rounded-lg variant-filled-success" on:click={submit}>ต่อไป</button>
 						{/if}
 					</svelte:fragment>
 				</AppBar>

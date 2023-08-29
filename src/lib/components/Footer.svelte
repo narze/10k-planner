@@ -28,6 +28,16 @@
 		cleanupZeroValueTags();
 		reorderTagsByValue();
 		state.set('submitted');
+
+		const entries = $tags.map((tag) => ({ name: tag.label, amount: tag.value }));
+
+		fetch('/api/submit', {
+			method: 'POST',
+			body: JSON.stringify(entries),
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		});
 	}
 
 	function restart() {
@@ -115,8 +125,7 @@
 							<button
 								disabled={true}
 								class="btn rounded-lg variant-filled-primary [&>*]:pointer-events-none"
-								use:popup={popupHover}
-								on:click={() => tags.set([])}>ต่อไป</button
+								use:popup={popupHover}>ต่อไป</button
 							>
 							<div class="!m-0 card p-2 variant-filled-warning" data-popup="popupHover">
 								<p>ใช้ให้ครบ 10,000 {THB} ก่อน</p>

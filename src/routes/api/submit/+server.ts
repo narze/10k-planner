@@ -1,6 +1,7 @@
 import prisma from '$lib/prisma';
 import { error, json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
+import { nanoid } from 'nanoid';
 
 export const POST: RequestHandler = async ({ request }) => {
 	const data = await request.json();
@@ -26,9 +27,14 @@ export const POST: RequestHandler = async ({ request }) => {
 	});
 
 	// 4.
+	const authorId = nanoid();
+	const createdAt = new Date();
+
 	const entries = data.map((entry) => ({
 		name: entry.name as string,
-		amount: entry.amount as number
+		amount: entry.amount as number,
+		authorId,
+		createdAt
 	}));
 
 	// Reject if any entry has amount out of range 0-10000

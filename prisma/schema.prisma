@@ -11,9 +11,11 @@ datasource db {
 }
 
 model Entry {
-  id     String @id @default(cuid())
-  name   String
-  amount Int
+  id        String   @id @default(cuid())
+  name      String
+  amount    Int
+  authorId  String
+  createdAt DateTime @default(now())
 
   // TODO: Add index
 }

@@ -17,5 +17,7 @@ model Entry {
   authorId  String
   createdAt DateTime @default(now())
 
-  // TODO: Add index
+  @@index([name])
+  @@index([amount])
+  @@index([createdAt])
 }

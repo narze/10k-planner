@@ -1,10 +1,8 @@
 import prisma from '$lib/prisma';
-import { error, json } from '@sveltejs/kit';
+import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
-import { nanoid } from 'nanoid';
 
-export const GET: RequestHandler = async ({}) => {
-	// const data = await request.json();
+export const GET: RequestHandler = async () => {
 	const stats = await prisma.entry.groupBy({
 		by: ['name'],
 		_sum: {

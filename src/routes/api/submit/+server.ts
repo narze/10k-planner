@@ -51,15 +51,15 @@ export const POST: RequestHandler = async ({ request }) => {
 	}
 
 	// No support in sqlite
-	// await prisma.entry.createMany({
-	// 	data: entries
-	// });
-
-	entries.forEach(async (entry) => {
-		await prisma.entry.create({
-			data: entry
-		});
+	await prisma.entry.createMany({
+		data: entries
 	});
+
+	// entries.forEach(async (entry) => {
+	// 	await prisma.entry.create({
+	// 		data: entr
+	// 	});
+	// });
 
 	//5.
 	// throw redirect(303, `/`);

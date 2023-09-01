@@ -45,7 +45,7 @@
 	</button>
 
 	<section class="p-4">
-		<span class="flex justify-center items-center gap-x-2">
+		<span class="flex justify-between items-center gap-x-2">
 			{#if labelEditable}
 				<input
 					use:autofocus
@@ -56,7 +56,7 @@
 			{:else}
 				<span class="text-lg mr-4">{tag.label}</span>
 			{/if}
-			<span
+			<span class="mr-4"
 				><input
 					class="input w-20 h-8 px-1 text-center rounded-sm variant-ghost-primary border-primary-300"
 					bind:value={tag.value}

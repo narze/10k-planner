@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { remainingAmount, type ChosenTag } from '$lib/stores/tags';
+	import { remainingAmount, type ChosenTag, predefinedTags } from '$lib/stores/tags';
 	import {
 		RangeSlider,
 		popup,
@@ -121,12 +121,13 @@
 						bind:input={tag.label}
 						options={[
 							...autocompleteOptions,
-							...(tag.label
+							...(tag.label && !predefinedTags.includes(tag.label)
 								? [{ label: `${tag.label} (ใหม่)`, value: tag.label, keywords: tag.label }]
 								: [])
 						]}
+						denylist={predefinedTags}
 						on:selection={onPopupSelect}
-						emptyState={tag.label}
+						emptyState="ไม่พบข้อมูล"
 					/>
 				</div>
 			{:else}

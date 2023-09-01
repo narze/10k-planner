@@ -2,7 +2,12 @@ import prisma from '$lib/prisma';
 import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 
-export const GET: RequestHandler = async () => {
+export const GET: RequestHandler = async ({ setHeaders }) => {
+	setHeaders({
+		age: '60', // 1 minute
+		'cache-control': 'max-age=60'
+	});
+
 	const stats = await prisma.entry.groupBy({
 		by: ['name'],
 		_sum: {

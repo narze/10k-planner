@@ -1,12 +1,55 @@
 <script lang="ts">
 	import { remainingAmount, type ChosenTag } from '$lib/stores/tags';
-	import { RangeSlider } from '@skeletonlabs/skeleton';
+	import {
+		RangeSlider,
+		popup,
+		Autocomplete,
+		type AutocompleteOption,
+		type PopupSettings
+	} from '@skeletonlabs/skeleton';
 	import { removeTag } from '$lib/stores/tags';
 	import { THB } from '$lib';
+	import { onMount, tick } from 'svelte';
+	import { nanoid } from 'nanoid';
 
 	export let tag: ChosenTag;
+	let popupEl: HTMLDivElement;
 
-	const labelEditable = tag.label === 'อื่นๆ';
+	let labelEditable = tag.label === 'อื่นๆ';
+	const id = nanoid();
+
+	let popupSettings: PopupSettings = {
+		event: 'focus-click',
+		target: `popupAutocomplete-${id}`,
+		placement: 'bottom'
+	};
+
+	let autocompleteOptions: AutocompleteOption[] = [];
+
+	onMount(async () => {
+		const result = await fetch('/api/stats', {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		});
+
+		const resultJson = await result.json();
+		autocompleteOptions = resultJson.stats.map((tag: { name: string }) => ({
+			label: tag.name,
+			value: tag.name,
+			keywords: tag.name
+			// meta: { healthy: false }
+		}));
+	});
+
+	function onPopupSelect(event: CustomEvent<AutocompleteOption>) {
+		popupEl.style.display = '';
+
+		tag.label = event.detail.value as string;
+
+		labelEditable = false;
+	}
 
 	function handleDelete() {
 		removeTag(tag.label);
@@ -24,19 +67,30 @@
 
 	function autofocus(el: HTMLInputElement) {
 		el.focus();
-		el.select();
+
+		tick().then(() => {
+			popupEl.style.display = 'block';
+			tag.label = '';
+		});
 	}
 
 	function editLabelOnBlur() {
-		tag.label = tag.label.trim();
+		// tag.label = tag.label.trim();
+		// if (tag.label === '') {
+		// 	tag.label = 'อื่นๆ';
+		// }
+	}
 
-		if (tag.label === '') {
-			tag.label = 'อื่นๆ';
-		}
+	function ensurePopupOnTop() {
+		popupEl.style.zIndex = '10';
 	}
 </script>
 
-<div class="card card-hover rounded-sm variant-soft-primary relative">
+<div
+	class={labelEditable
+		? 'card rounded-sm variant-soft-primary relative'
+		: 'card card-hover rounded-sm variant-soft-primary relative'}
+>
 	<button
 		on:click={handleDelete}
 		class="btn btn-sm rounded-full variant-filled-error flex items-center font-bold absolute top-0 right-0 m-1 w-6 h-6"
@@ -49,10 +103,32 @@
 			{#if labelEditable}
 				<input
 					use:autofocus
-					class="input w-24 h-8 px-1 mr-2 text-center rounded variant-ghost-secondary border-primary-300"
+					class="input autocomplete w-auto h-8 px-1 mr-2 text-center rounded variant-ghost-secondary border-primary-300"
+					type="search"
 					bind:value={tag.label}
 					on:blur={editLabelOnBlur}
+					on:focus={ensurePopupOnTop}
+					use:popup={popupSettings}
+					placeholder="โปรดระบุ"
 				/>
+				<div
+					data-popup={`popupAutocomplete-${id}`}
+					class="card w-full max-w-sm max-h-48 p-4 overflow-y-auto"
+					tabindex="-1"
+					bind:this={popupEl}
+				>
+					<Autocomplete
+						bind:input={tag.label}
+						options={[
+							...autocompleteOptions,
+							...(tag.label
+								? [{ label: `${tag.label} (ใหม่)`, value: tag.label, keywords: tag.label }]
+								: [])
+						]}
+						on:selection={onPopupSelect}
+						emptyState={tag.label}
+					/>
+				</div>
 			{:else}
 				<span class="text-lg mr-4">{tag.label}</span>
 			{/if}

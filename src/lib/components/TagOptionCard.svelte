@@ -24,7 +24,7 @@
 		placement: 'bottom'
 	};
 
-	let autocompleteOptions: AutocompleteOption[] = [];
+	let autocompleteOptions: AutocompleteOption[] = ['Loading...'];
 
 	onMount(async () => {
 		const result = await fetch('/api/stats', {

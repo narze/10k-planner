@@ -4,10 +4,6 @@
 	export const header = writable(false);
 </script>
 
-<script lang="ts">
-	// $: initialState = $tags.length == 0;
-</script>
-
 {#if $header}
 	<AppBar gridColumns="grid-cols-3" slotDefault="place-self-center" slotTrail="place-content-end">
 		<svelte:fragment slot="lead">💀</svelte:fragment>

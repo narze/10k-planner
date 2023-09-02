@@ -27,7 +27,7 @@ export const POST: RequestHandler = async ({ request }) => {
 	});
 
 	// 4.
-	const authorId = nanoid();
+	const authorId = process.env.NODE_ENV === 'development' ? 'dev' : nanoid();
 	const createdAt = new Date();
 
 	const entries = data.map((entry) => ({

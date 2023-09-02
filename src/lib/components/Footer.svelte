@@ -10,7 +10,7 @@
 	import TagSelect from './TagSelect.svelte';
 	import { AppBar, popup, type PopupSettings } from '@skeletonlabs/skeleton';
 	import { THB } from '$lib';
-	import { state } from '$lib/stores/state';
+	import { state, viewOtherStats } from '$lib/stores/state';
 	export const footer = writable(true);
 </script>
 
@@ -28,6 +28,7 @@
 		cleanupZeroValueTags();
 		reorderTagsByValue();
 		state.set('submitted');
+		viewOtherStats.set(false);
 
 		const entries = $tags.map((tag) => ({ name: tag.label, amount: tag.value }));
 
@@ -68,7 +69,7 @@
 				</div>
 			</svelte:fragment>
 			<svelte:fragment slot="trail">
-				<button class="btn rounded-lg variant-ghost-secondary" on:click={restart}>ทำใหม่</button>
+				<button class="btn rounded-lg variant-ghost-secondary" on:click={restart}>เริ่มใหม่</button>
 			</svelte:fragment>
 		</AppBar>
 	{:else if initialState}

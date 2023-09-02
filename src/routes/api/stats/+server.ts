@@ -28,7 +28,7 @@ export const GET: RequestHandler = async ({ setHeaders }) => {
 					gte: 1500
 				},
 				_count: {
-					gte: 2
+					gte: 3
 				}
 			}
 		}

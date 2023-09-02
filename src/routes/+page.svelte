@@ -3,13 +3,14 @@
 	import TagOptionCard from '$lib/components/TagOptionCard.svelte';
 	import TagSelect from '$lib/components/TagSelect.svelte';
 	import { state, viewOtherStats } from '$lib/stores/state';
-	import { predefinedTags, tags } from '$lib/stores/tags';
+	import { predefinedTags, tags, type ChosenTag } from '$lib/stores/tags';
 	import { writable } from 'svelte/store';
+	import { fly } from 'svelte/transition';
 
 	$: initialState = $tags.length == 0;
 	$: submittedState = $state === 'submitted';
 
-	const otherStatTags = writable([]);
+	const otherStatTags = writable<ChosenTag[]>([]);
 
 	function toggleViewStats() {
 		viewOtherStats.update((prev) => !prev);
@@ -42,8 +43,10 @@
 				<div>คุณจะนำเงินดิจิทัล 10,000 ฿ ไปใช้ทำอะไรบ้าง ?</div>
 
 				<div class="flex gap-2 flex-col px-4 justify-center w-96 max-w-[100vw]">
-					{#each $tags as tag}
-						<TagViewCard {tag} />
+					{#each $tags as tag, idx}
+						<span in:fly={{ y: 200, delay: idx * 100 }}>
+							<TagViewCard {tag} />
+						</span>
 					{/each}
 				</div>
 
@@ -63,8 +66,10 @@
 					<!-- Remarks -->
 					<!-- <div class="text-sm"></div> -->
 
-					{#each $otherStatTags as tag}
-						<TagViewCard {tag} />
+					{#each $otherStatTags as tag, idx}
+						<span in:fly={{ x: 200, delay: idx * 100 }}>
+							<TagViewCard {tag} />
+						</span>
 					{/each}
 				</div>
 

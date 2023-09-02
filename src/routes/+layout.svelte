@@ -13,6 +13,17 @@
 
 <Analytics />
 
+<svelte:head>
+	<title>💸 10k Planner</title>
+
+	<!-- Open Graph-->
+	<meta property="og:title" content="💸 10k Planner" />
+	<meta property="og:description" content="คุณจะนำเงินดิจิทัล 10,000 ฿ ไปใช้ทำอะไรบ้าง ?" />
+	<meta property="og:image" content="https://pptr.io/api/screenshot?url=https://10k.narze.live" />
+	<meta property="og:url" content="https://10k.narze.live" />
+	<meta property="og:type" content="website" />
+</svelte:head>
+
 <!-- App Shell -->
 <AppShell>
 	<svelte:fragment slot="header">

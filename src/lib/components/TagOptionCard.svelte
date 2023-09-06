@@ -36,12 +36,14 @@
 		});
 
 		const resultJson = await result.json();
-		autocompleteOptions = resultJson.stats.map((tag: { name: string }) => ({
-			label: tag.name,
-			value: tag.name,
-			keywords: tag.name
-			// meta: { healthy: false }
-		}));
+		autocompleteOptions = resultJson.stats
+			.filter((tag: { name: string }) => !predefinedTags.includes(tag.name))
+			.map((tag: { name: string }) => ({
+				label: tag.name,
+				value: tag.name,
+				keywords: tag.name
+				// meta: { healthy: false }
+			}));
 	});
 
 	function onPopupSelect(event: CustomEvent<AutocompleteOption>) {
@@ -125,12 +127,12 @@
 							options={[
 								...autocompleteOptions,
 								...(tag.label && !predefinedTags.includes(tag.label)
-									? [{ label: `${tag.label} (ใหม่)`, value: tag.label, keywords: tag.label }]
+									? [{ label: `${tag.label} (เพิ่ม)`, value: tag.label, keywords: tag.label }]
 									: [])
 							]}
 							denylist={predefinedTags}
 							on:selection={onPopupSelect}
-							emptyState="ไม่พบข้อมูล"
+							emptyState="โปรดระบุ"
 						/>
 					</div>
 				{:else}

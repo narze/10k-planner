@@ -34,7 +34,7 @@
 	}
 </script>
 
-<div class="relative container h-full mx-auto flex justify-center items-center">
+<div class="relative container h-full mx-auto flex justify-center items-center py-8">
 	<div class="space-y-10 text-center flex flex-col items-center">
 		<h1 class="h1 text-primary-500 font-bold">10k Planner</h1>
 

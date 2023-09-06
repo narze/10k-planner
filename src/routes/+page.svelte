@@ -3,9 +3,9 @@
 	import TagOptionCard from '$lib/components/TagOptionCard.svelte';
 	import TagSelect from '$lib/components/TagSelect.svelte';
 	import { state, viewOtherStats } from '$lib/stores/state';
-	import { predefinedTags, tags, type ChosenTag } from '$lib/stores/tags';
+	import { predefinedTags, tags, type ChosenTag, remainingAmount } from '$lib/stores/tags';
 	import { writable } from 'svelte/store';
-	import { fly } from 'svelte/transition';
+	import { fade, fly } from 'svelte/transition';
 
 	$: initialState = $tags.length == 0;
 	$: submittedState = $state === 'submitted';
@@ -34,7 +34,7 @@
 	}
 </script>
 
-<div class="container h-full mx-auto flex justify-center items-center">
+<div class="relative container h-full mx-auto flex justify-center items-center">
 	<div class="space-y-10 text-center flex flex-col items-center">
 		<h1 class="h1 text-primary-500 font-bold">10k Planner</h1>
 
@@ -101,6 +101,13 @@
 			{/if}
 		{/if}
 	</div>
+
+	{#if !initialState && $tags?.length < 3 && $remainingAmount != 0}
+		<div class="absolute bottom-4 animate-bounce variant-soft-primary rounded-lg p-4" out:fade>
+			คลิกเพื่อเลือกหัวข้อใช้จ่ายเพิ่มเติม
+			<div class="text-center text-xl">⬇</div>
+		</div>
+	{/if}
 </div>
 
 <style lang="postcss">

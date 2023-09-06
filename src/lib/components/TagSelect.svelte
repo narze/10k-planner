@@ -11,8 +11,9 @@
 		'btn',
 		small && 'btn-sm',
 		small && 'min-w-[4rem]',
-		'variant-ghost-surface',
-		selected && 'variant-soft'
+		label !== 'อื่นๆ' && 'variant-ghost-surface',
+		selected && 'variant-soft',
+		label === 'อื่นๆ' && 'variant-ghost-primary'
 	]
 		.filter(Boolean)
 		.join(' ');

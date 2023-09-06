@@ -96,8 +96,8 @@
 	{:else}
 		<div class="bg-surface-100-800-token">
 			<div class="container mx-auto -space-y-2 max-w-screen-md">
-				<AppBar gridColumns="grid-cols-1" slotDefault="max-h-40 m-0 overflow-y-auto" class="!p-0">
-					<div class="p-4">
+				<AppBar gridColumns="grid-cols-1" slotDefault="max-h-44 m-0 overflow-y-auto" class="!p-0">
+					<div class="p-4 pb-2">
 						<div class="flex gap-2 flex-wrap justify-center">
 							{#each predefinedTags as tag}
 								<TagSelect label={tag} small={true} />

@@ -6,6 +6,7 @@
 	import { predefinedTags, tags, type ChosenTag, remainingAmount } from '$lib/stores/tags';
 	import { writable } from 'svelte/store';
 	import { fade, fly } from 'svelte/transition';
+	import TenThousandBaht from '$lib/components/TenThousandBaht.svelte';
 
 	$: initialState = $tags.length == 0;
 	$: submittedState = $state === 'submitted';
@@ -40,7 +41,9 @@
 
 		{#if submittedState}
 			{#if !$viewOtherStats}
-				<div>คุณจะนำเงินดิจิทัล 10,000 ฿ ไปใช้ทำอะไรบ้าง ?</div>
+				<div>
+					คุณจะนำเงินดิจิทัล <TenThousandBaht /> ไปใช้ทำอะไรบ้าง ?
+				</div>
 
 				<div class="flex gap-2 flex-col px-4 justify-center w-96 max-w-[100vw]">
 					{#each $tags as tag, idx}
@@ -56,7 +59,9 @@
 					>
 				</div>
 			{:else}
-				<div>คนอื่นๆ จะนำเงินดิจิทัล 10,000 ฿ ไปใช้ทำอะไรบ้าง ?</div>
+				<div>
+					คนอื่นๆ จะนำเงินดิจิทัล <TenThousandBaht /> ไปใช้ทำอะไรบ้าง ?
+				</div>
 
 				<div class="flex gap-2 flex-col px-4 justify-center w-96 max-w-[100vw]">
 					{#if $otherStatTags.length == 0}
@@ -78,7 +83,9 @@
 				</div>
 			{/if}
 		{:else}
-			<div>คุณจะนำเงินดิจิทัล 10,000 ฿ ไปใช้ทำอะไรบ้าง ?</div>
+			<div>
+				คุณจะนำเงินดิจิทัล <TenThousandBaht /> ไปใช้ทำอะไรบ้าง ?
+			</div>
 
 			{#if initialState}
 				<div class="flex gap-2 flex-wrap px-8 justify-center">

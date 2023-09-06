@@ -115,6 +115,7 @@
 						on:focus={ensurePopupOnTop}
 						use:popup={popupSettings}
 						placeholder="โปรดระบุ"
+						maxlength={25}
 					/>
 					<div
 						data-popup={`popupAutocomplete-${id}`}

@@ -1,6 +1,6 @@
 import { writable } from 'svelte/store';
 
-type State = 'input' | 'submitted';
+type State = 'input' | 'submitted' | 'view-stats';
 
 export const state = writable<State>('input');
 

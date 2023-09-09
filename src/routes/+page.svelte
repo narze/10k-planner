@@ -7,9 +7,9 @@
 	import { writable } from 'svelte/store';
 	import { fade, fly } from 'svelte/transition';
 	import TenThousandBaht from '$lib/components/TenThousandBaht.svelte';
+	import { THB } from '$lib';
 
 	$: initialState = $tags.length == 0;
-	$: submittedState = $state === 'submitted';
 
 	const otherStatTags = writable<ChosenTag[]>([]);
 
@@ -17,7 +17,7 @@
 		viewOtherStats.update((prev) => !prev);
 	}
 
-	$: if ($viewOtherStats && $otherStatTags.length === 0) {
+	$: if (($viewOtherStats || $state === 'view-stats') && $otherStatTags.length === 0) {
 		fetch('/api/stats', {
 			method: 'GET',
 			headers: {
@@ -25,6 +25,7 @@
 			}
 		}).then(async (result) => {
 			const resultJson = await result.json();
+
 			otherStatTags.set(
 				resultJson.stats.map((tag: { name: string; _sum: { amount: number } }) => ({
 					label: tag.name,
@@ -39,7 +40,7 @@
 	<div class="space-y-10 text-center flex flex-col items-center">
 		<h1 class="h1 text-primary-500 font-bold">10k Planner</h1>
 
-		{#if submittedState}
+		{#if $state === 'submitted'}
 			{#if !$viewOtherStats}
 				<div>
 					คุณจะนำเงินดิจิทัล <TenThousandBaht /> ไปใช้ทำอะไรบ้าง ?
@@ -82,6 +83,22 @@
 					<button class="btn variant-soft-primary" on:click={toggleViewStats}>ดูผลของตัวเอง</button>
 				</div>
 			{/if}
+		{:else if $state === 'view-stats'}
+			<div class="flex gap-2 flex-col px-4 justify-center w-96 max-w-[100vw]">
+				{#if $otherStatTags.length == 0}
+					<TagViewCard tag={{ label: 'Loading...', value: 0 }} />
+				{/if}
+
+				{#each $otherStatTags as tag, idx}
+					<span in:fly={{ x: 200, delay: idx * 100 }}>
+						<TagViewCard {tag} />
+					</span>
+				{/each}
+			</div>
+
+			<div class="flex gap-2 flex-col px-4 justify-center w-96 max-w-[100vw]">
+				<button class="btn variant-ringed-primary" on:click={() => ($state = 'input')}>กลับ</button>
+			</div>
 		{:else}
 			<div>
 				คุณจะนำเงินดิจิทัล <TenThousandBaht /> ไปใช้ทำอะไรบ้าง ?
@@ -105,6 +122,12 @@
 
 			{#if initialState}
 				<div>คลิกที่หัวข้อเพื่อเริ่มวางแผนการใช้เงินดิจิทัล</div>
+
+				<div class="flex gap-2 flex-col px-4 justify-center w-96 max-w-[100vw]">
+					<button class="btn variant-ringed-primary" on:click={() => ($state = 'view-stats')}
+						>ดูสถิติการใช้เงินดิจิทัล 10,000 {THB} ของคนอื่นๆ</button
+					>
+				</div>
 			{/if}
 		{/if}
 	</div>
